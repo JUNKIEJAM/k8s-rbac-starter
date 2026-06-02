@@ -1,0 +1,6 @@
+apiVersion: apps
+kind: ServiceAccount
+metadata:
+  name: grade-sa
+  namespace: grade-demo
+---
