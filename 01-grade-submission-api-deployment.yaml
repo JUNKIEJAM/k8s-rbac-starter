@@ -15,6 +15,7 @@ spec:
       labels:
         app: grade-submission
     spec:
+      serviceAccountName: grade-proxy
       containers:
       - name: grade-submission-api
         image: rslim087/kubernetes-course-grade-submission-api:stateless
