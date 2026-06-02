@@ -3,3 +3,18 @@ kind: ServiceAccount
 metadata:
   name: grade-sa
   namespace: grade-demo
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
+kind: ClusterRoleBinding
+metadata:
+  name: grade-submission-binding
+subjects:
+- kind: ServiceAccount
+  name: grade-sa # Name is case sensitive
+  namespace: grade-demo
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
