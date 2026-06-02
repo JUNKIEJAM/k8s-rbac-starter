@@ -3,18 +3,28 @@ kind: ServiceAccount
 metadata:
   name: grade-service-proxy
   namespace: grade-demo
-# ---
+---
 
-# apiVersion: rbac.authorization.k8s.io/v1
-# # This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
-# kind: ClusterRoleBinding
-# metadata:
-#   name: grade-submission-proxy-binding
-# subjects:
-# - kind: ServiceAccount
-#   name: grade-proxy # Name is case sensitive
-#   namespace: grade-demo
-# roleRef:
-#   kind: ClusterRole
-#   name: cluster-admin
-#   apiGroup: rbac.authorization.k8s.io
+apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
+kind: ClusterRole
+metadata:
+  name: grade-submission-proxy-role
+rules:
+- apiGroups: ["authentication.k8s.io"]
+  resources: ["tokenreviews"]
+  verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
+kind: ClusterRoleBinding
+metadata:
+  name: grade-submission-proxy-binding
+subjects:
+- kind: ServiceAccount
+  name: grade-service-proxy # Name is case sensitive
+  namespace: grade-demo
+roleRef:
+  kind: ClusterRole
+  name: grade-service-proxy-role
+  apiGroup: rbac.authorization.k8s.io
